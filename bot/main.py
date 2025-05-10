@@ -64,7 +64,8 @@ def main():
                 MessageHandler(filters.TEXT & ~filters.COMMAND, handle_hashtags)
             ]
         },
-        fallbacks=[CommandHandler("cancel", cancel)]
+        fallbacks=[CommandHandler("cancel", cancel)],
+        per_message=True
     )
     application.add_handler(ad_conv_handler)
     
@@ -79,7 +80,8 @@ def main():
             SELECT_CHAT: [CallbackQueryHandler(show_chat, pattern='^select_chat_')],
             SEND_MESSAGE: [MessageHandler(filters.TEXT & ~filters.COMMAND, send_message)]
         },
-        fallbacks=[CommandHandler("cancel", cancel)]
+        fallbacks=[CommandHandler("cancel", cancel)],
+        per_message=True
     )
     application.add_handler(message_conv_handler)
     
@@ -96,7 +98,8 @@ def main():
             FILTER_DATE: [CallbackQueryHandler(handle_date_filter, pattern='^date_')],
             SORT_RESULTS: [CallbackQueryHandler(handle_sort_results, pattern='^sort_')]
         },
-        fallbacks=[CommandHandler("cancel", cancel)]
+        fallbacks=[CommandHandler("cancel", cancel)],
+        per_message=True
     )
     application.add_handler(search_conv_handler)
     
@@ -111,7 +114,8 @@ def main():
             WRITE_REVIEW: [MessageHandler(filters.TEXT & ~filters.COMMAND, save_review)],
             REPORT_AD: [CallbackQueryHandler(save_report, pattern='^report_')]
         },
-        fallbacks=[CommandHandler("cancel", cancel)]
+        fallbacks=[CommandHandler("cancel", cancel)],
+        per_message=True
     )
     application.add_handler(rating_conv_handler)
     
@@ -125,7 +129,8 @@ def main():
             NOTIFICATION_SETTINGS: [CallbackQueryHandler(toggle_notification, pattern='^toggle_')],
             CATEGORY_NOTIFICATIONS: [CallbackQueryHandler(toggle_category_notification, pattern='^toggle_category_')]
         },
-        fallbacks=[CommandHandler("cancel", cancel)]
+        fallbacks=[CommandHandler("cancel", cancel)],
+        per_message=True
     )
     application.add_handler(notification_conv_handler)
     
@@ -139,7 +144,8 @@ def main():
             PAYMENT_METHOD: [CallbackQueryHandler(handle_payment_method, pattern='^payment_')],
             PAYMENT_CONFIRM: [CallbackQueryHandler(handle_payment_confirmation, pattern='^confirm_')]
         },
-        fallbacks=[CommandHandler("cancel", cancel)]
+        fallbacks=[CommandHandler("cancel", cancel)],
+        per_message=True
     )
     application.add_handler(payment_conv_handler)
     
@@ -157,7 +163,8 @@ def main():
             USER_MANAGEMENT: [CallbackQueryHandler(manage_user, pattern='^user_')],
             AD_MANAGEMENT: [CallbackQueryHandler(manage_ad, pattern='^ad_')]
         },
-        fallbacks=[CommandHandler("cancel", cancel)]
+        fallbacks=[CommandHandler("cancel", cancel)],
+        per_message=True
     )
     application.add_handler(admin_conv_handler)
     
@@ -171,7 +178,8 @@ def main():
             SUBSCRIPTION_TYPE: [CallbackQueryHandler(handle_subscription_selection, pattern='^subscription_')],
             SUBSCRIPTION_CONFIRM: [CallbackQueryHandler(confirm_subscription, pattern='^confirm_')]
         },
-        fallbacks=[CommandHandler("cancel", cancel)]
+        fallbacks=[CommandHandler("cancel", cancel)],
+        per_message=True
     )
     application.add_handler(subscription_conv_handler)
     
