@@ -123,30 +123,38 @@ def format_user_info(user):
     subscription = user.get('subscription', {})
     is_active = is_subscription_active(subscription.get('expires_at'))
     
-    return f"""
-👤 اطلاعات کاربر:
-
-نام کسب و کار: {user.get('business_name', 'نامشخص')}
-نام کاربری: @{user.get('username', 'نامشخص')}
-دسته‌بندی: {get_category_name(user.get('category', 'other'))}
-تاریخ عضویت: {format_date(user.get('created_at', datetime.now()))}
-
-اشتراک: {'✅ فعال' if is_active else '❌ غیرفعال'}
-{'' if not subscription else f'نوع اشتراک: {get_subscription_name(subscription.get("type"))}\nتاریخ انقضا: {format_date(subscription.get("expires_at"))}'}
-"""
+    info = [
+        "👤 اطلاعات کاربر:",
+        "",
+        f"نام کسب و کار: {user.get('business_name', 'نامشخص')}",
+        f"نام کاربری: @{user.get('username', 'نامشخص')}",
+        f"دسته‌بندی: {get_category_name(user.get('category', 'other'))}",
+        f"تاریخ عضویت: {format_date(user.get('created_at', datetime.now()))}",
+        "",
+        f"اشتراک: {'✅ فعال' if is_active else '❌ غیرفعال'}"
+    ]
+    
+    if subscription:
+        info.extend([
+            f"نوع اشتراک: {get_subscription_name(subscription.get('type'))}",
+            f"تاریخ انقضا: {format_date(subscription.get('expires_at'))}"
+        ])
+    
+    return "\n".join(info)
 
 def format_ad_info(ad):
     """فرمت‌بندی اطلاعات آگهی"""
-    return f"""
-📢 {ad.get('title', 'بدون عنوان')}
-
-📝 توضیحات:
-{ad.get('description', 'بدون توضیحات')}
-
-💰 قیمت: {format_price(ad.get('price', 0))}
-🏷️ دسته‌بندی: {get_category_name(ad.get('category', 'other'))}
-📅 تاریخ: {format_date(ad.get('created_at', datetime.now()))}
-👤 آگهی‌دهنده: {ad.get('business_name', 'نامشخص')}
-
-وضعیت: {ad.get('status', 'نامشخص')}
-""" 
+    info = [
+        f"📢 {ad.get('title', 'بدون عنوان')}",
+        "",
+        "📝 توضیحات:",
+        ad.get('description', 'بدون توضیحات'),
+        "",
+        f"💰 قیمت: {format_price(ad.get('price', 0))}",
+        f"🏷️ دسته‌بندی: {get_category_name(ad.get('category', 'other'))}",
+        f"📅 تاریخ: {format_date(ad.get('created_at', datetime.now()))}",
+        f"👤 آگهی‌دهنده: {ad.get('business_name', 'نامشخص')}",
+        "",
+        f"وضعیت: {ad.get('status', 'نامشخص')}"
+    ]
+    return "\n".join(info) 
