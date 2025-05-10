@@ -1,4 +1,5 @@
 import logging
+import asyncio
 from telegram.ext import Application, CommandHandler, MessageHandler, CallbackQueryHandler, filters, ConversationHandler
 from bot.handlers.main import *
 from bot.handlers.main import cancel
@@ -35,6 +36,9 @@ def main():
     # ایجاد نمونه از برنامه
     application = Application.builder().token(config.BOT_TOKEN).build()
     
+    # پاک کردن webhook قبل از شروع
+    asyncio.run(application.bot.delete_webhook(drop_pending_updates=True))
+    
     # هندلرهای اصلی
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
@@ -65,7 +69,7 @@ def main():
             ]
         },
         fallbacks=[CommandHandler("cancel", cancel)],
-        per_message=True
+        per_message=False
     )
     application.add_handler(ad_conv_handler)
     
@@ -81,7 +85,7 @@ def main():
             SEND_MESSAGE: [MessageHandler(filters.TEXT & ~filters.COMMAND, send_message)]
         },
         fallbacks=[CommandHandler("cancel", cancel)],
-        per_message=True
+        per_message=False
     )
     application.add_handler(message_conv_handler)
     
@@ -99,7 +103,7 @@ def main():
             SORT_RESULTS: [CallbackQueryHandler(handle_sort_results, pattern='^sort_')]
         },
         fallbacks=[CommandHandler("cancel", cancel)],
-        per_message=True
+        per_message=False
     )
     application.add_handler(search_conv_handler)
     
@@ -115,7 +119,7 @@ def main():
             REPORT_AD: [CallbackQueryHandler(save_report, pattern='^report_')]
         },
         fallbacks=[CommandHandler("cancel", cancel)],
-        per_message=True
+        per_message=False
     )
     application.add_handler(rating_conv_handler)
     
@@ -130,7 +134,7 @@ def main():
             CATEGORY_NOTIFICATIONS: [CallbackQueryHandler(toggle_category_notification, pattern='^toggle_category_')]
         },
         fallbacks=[CommandHandler("cancel", cancel)],
-        per_message=True
+        per_message=False
     )
     application.add_handler(notification_conv_handler)
     
@@ -145,7 +149,7 @@ def main():
             PAYMENT_CONFIRM: [CallbackQueryHandler(handle_payment_confirmation, pattern='^confirm_')]
         },
         fallbacks=[CommandHandler("cancel", cancel)],
-        per_message=True
+        per_message=False
     )
     application.add_handler(payment_conv_handler)
     
@@ -164,7 +168,7 @@ def main():
             AD_MANAGEMENT: [CallbackQueryHandler(manage_ad, pattern='^ad_')]
         },
         fallbacks=[CommandHandler("cancel", cancel)],
-        per_message=True
+        per_message=False
     )
     application.add_handler(admin_conv_handler)
     
@@ -179,7 +183,7 @@ def main():
             SUBSCRIPTION_CONFIRM: [CallbackQueryHandler(confirm_subscription, pattern='^confirm_')]
         },
         fallbacks=[CommandHandler("cancel", cancel)],
-        per_message=True
+        per_message=False
     )
     application.add_handler(subscription_conv_handler)
     
