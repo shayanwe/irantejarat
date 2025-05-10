@@ -31,13 +31,13 @@ PAYMENT_METHOD, PAYMENT_CONFIRM = range(2)
 BROADCAST, USER_MANAGEMENT, AD_MANAGEMENT = range(3)
 SUBSCRIPTION_TYPE, SUBSCRIPTION_CONFIRM = range(2)
 
-def main():
+async def main():
     """تابع اصلی ربات"""
     # ایجاد نمونه از برنامه
     application = Application.builder().token(config.BOT_TOKEN).build()
     
     # پاک کردن webhook قبل از شروع
-    asyncio.run(application.bot.delete_webhook(drop_pending_updates=True))
+    await application.bot.delete_webhook(drop_pending_updates=True)
     
     # هندلرهای اصلی
     application.add_handler(CommandHandler("start", start))
@@ -188,7 +188,7 @@ def main():
     application.add_handler(subscription_conv_handler)
     
     # شروع ربات
-    application.run_polling()
+    await application.run_polling()
 
 if __name__ == '__main__':
-    main() 
+    asyncio.run(main()) 
