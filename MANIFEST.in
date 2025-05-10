@@ -1,0 +1,40 @@
+include LICENSE
+include README.md
+include requirements.txt
+include .env.example
+recursive-include bot *.py
+recursive-include bot/handlers *.py
+recursive-include bot/utils *.py
+recursive-include bot/database *.py
+recursive-exclude __pycache__ *.pyc
+recursive-exclude *.pyc
+recursive-exclude *.pyo
+recursive-exclude *.pyd
+recursive-exclude *.so
+recursive-exclude *.dylib
+recursive-exclude *.dll
+recursive-exclude *.exe
+recursive-exclude *.egg-info
+recursive-exclude .git
+recursive-exclude .github
+recursive-exclude .vscode
+recursive-exclude .idea
+recursive-exclude venv
+recursive-exclude env
+recursive-exclude ENV
+recursive-exclude .env
+recursive-exclude *.log
+recursive-exclude logs
+recursive-exclude log
+recursive-exclude media
+recursive-exclude uploads
+recursive-exclude images
+recursive-exclude .cache
+recursive-exclude .pytest_cache
+recursive-exclude .coverage
+recursive-exclude htmlcov
+recursive-exclude dist
+recursive-exclude build
+recursive-exclude *.tar.gz
+recursive-exclude .DS_Store
+recursive-exclude Thumbs.db 
