@@ -13,6 +13,8 @@ from bot.handlers.admin import *
 from bot.handlers.subscription import *
 from bot.utils.ui import *
 from bot import config
+from aiohttp import web
+import os
 
 # تنظیمات لاگینگ
 logging.basicConfig(
@@ -31,7 +33,17 @@ PAYMENT_METHOD, PAYMENT_CONFIRM = range(2)
 BROADCAST, USER_MANAGEMENT, AD_MANAGEMENT = range(3)
 SUBSCRIPTION_TYPE, SUBSCRIPTION_CONFIRM = range(2)
 
-def main():
+async def web_app():
+    """سرور وب ساده برای Render"""
+    app = web.Application()
+    
+    async def handle(request):
+        return web.Response(text="Bot is running!")
+    
+    app.router.add_get('/', handle)
+    return app
+
+async def main():
     """تابع اصلی ربات"""
     # ایجاد نمونه از برنامه
     application = Application.builder().token(config.BOT_TOKEN).build()
@@ -184,8 +196,24 @@ def main():
     )
     application.add_handler(subscription_conv_handler)
     
-    # شروع ربات
-    application.run_polling(allowed_updates=Update.ALL_TYPES)
+    # شروع ربات و سرور وب
+    await application.initialize()
+    await application.start()
+    await application.updater.start_polling()
+    
+    # راه‌اندازی سرور وب
+    app = await web_app()
+    runner = web.AppRunner(app)
+    await runner.setup()
+    site = web.TCPSite(runner, '0.0.0.0', int(os.environ.get('PORT', 8080)))
+    await site.start()
+    
+    # نگه داشتن برنامه در حال اجرا
+    try:
+        await application.updater.stop()
+    finally:
+        await application.stop()
+        await application.shutdown()
 
 if __name__ == '__main__':
-    main() 
+    asyncio.run(main()) 
